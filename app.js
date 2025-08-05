@@ -1,90 +1,77 @@
 let secretNumber = 0;
 let attempts = 0;
 let drawNumbers = [];
-let maxAttempts = 10;
+let maxNumber = 10;
 
-//Da nombre a las etiquetas p,h1,...
-function setTextToElement(element,text) {
-    //querySelector como selector general
-    let titleGame = document.querySelector(element);
-    titleGame.innerHTML = text;
+function setTextToElement(selector, text) {
+    let htmlElement = document.querySelector(selector);
+    htmlElement.innerHTML = text;
     return;
 }
 
-//Retorna un numero random entre 1 y maxAttempts
-function generateSecretNumbers() {
-    // return Math.floor(Math.random()*maxAttempts)+1;
-    let generateNumber = Math.floor(Math.random()*maxAttempts)+1;
-    console.log(generateNumber);
+function generateSecretNumber() {
+    let generatedNumber = Math.floor(Math.random()*maxNumber)+1;
+    console.log(generatedNumber);
     console.log(drawNumbers);
 
-    if (drawNumbers.length === maxAttempts){
+    if (drawNumbers.length === maxNumber){
         setTextToElement('p','Ya se sortearon todos los numeros posibles');
     } else {
     
-        if (drawNumbers.includes(generateNumber)){
-            return generateNumber();
+        if (drawNumbers.includes(generatedNumber)){
+            return generateSecretNumber();
         } else {
-            drawNumbers.push(generateNumber);
-            return generateNumber;
+            drawNumbers.push(generatedNumber);
+            return generatedNumber;
         }
     }
 }
 
-
-function checkGuess() {
-    // let userNumber = document.querySelector(input);
-    let userNumber = parseInt(document.getElementById('userValue').value);
-    // while (userNumber != secretNumber) {
-
-    if (userNumber === secretNumber) {
-
+function checkUserGuess() {
+    let userInput = parseInt(document.getElementById('userInput').value);
+    if (userInput === secretNumber) {
         setTextToElement('p',`Acertaste el numero. Lo hiciste en ${attempts} ${(attempts == 1) ? 'vez':'veces'}`);
-
-        document.getElementById('resetButton').removeAttribute('disabled');
-        
-
+        document.getElementById('restartButton').removeAttribute('disabled');
     } else {
-        if (userNumber > secretNumber) {
+        if (userInput > secretNumber) {
             setTextToElement('p','El numero secreto es menor');
         } else {
             setTextToElement('p','El numero secreto es mayor');
         }
         attempts++;
         console.log(`intento #${attempts}`);
-        cleanBox();
-
+        clearInput();
         if (attempts > 3) {
             setTextToElement('p','llegaste al numero maximo de intentos');
         }
     }
-        // break;
-
     return;
-
 }
 
-function cleanBox() {
-    // let valueBox = document.querySelector('#userValue');
-    // valueBox.value = '';
+function clearInput() {
+    /*let valueBox = document.querySelector('#userValue');
+        valueBox.value = '';    */
     document.querySelector('#userValue').value = '';
-
 }
 
-function setInitialConditions() {
-    setTextToElement('h1','Juego del numero secreto');
-    setTextToElement('p',`Indica un numero del 1 al ${maxAttempts}`);
-    secretNumber = generateSecretNumbers
-();
+function initialConditions() {
+    setTextToElement('h1','Juego del número secreto!');
+    setTextToElement('p',`Indica un número del 1 al ${maxNumber}`);
+    secretNumber = generateSecretNumber();
     attempts = 1;
+    console.log(secretNumber);
 }
 
 function resetGame() {
-    cleanBox(); 
-    setInitialConditions();
-    //desabilitar el boton
-    document.querySelector('resetButton').setAttribute('disabled',true);
+    //limpiar caja
+    clearInput(); 
+    //Indicar mensaje de intervalo de números 
+    //Generar el número aleatorio
+    //Inicializar el número intentos
+    initialConditions();
+    //Desabilita el boton
+    document.querySelector('#restartButton').setAttribute('disabled',true);
 
 }
 
-setInitialConditions();
+initialConditions();
