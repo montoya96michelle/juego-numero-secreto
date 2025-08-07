@@ -10,12 +10,17 @@
 
 ### VARIABLES:
 
-|       Ingles        |       Español       |
-|---------------------|---------------------|
-|secretNumber         |numeroSecreto        |
-|attempts             |intentos             |
-|drawNumbers          |listaDeNumeros       |
-|maxAttempts          |MaximoIntentos       |
+|       Ingles      |       Español         |
+|-------------------|---------------------  |
+|secretNumber       |numeroSecreto          |
+|attempts           |intentos               |
+|drawNumbers        |listaNumerosSorteados  |
+|maxNumber          |numeroMaximo           |
+|userInput          |numeroDeUsuario        |
+|generatedNumber    |numeroGenerado         |
+|text               |texto                  |
+|selector           |elemento               |
+|htmlElement      |elementoHTML           |
 
 ### FUNCIONES:
 
@@ -27,7 +32,7 @@
 |getRandomNumber()          |obtenerNumeroAleatorio()           |
 |resetGame()                |reiniciarJuego()                   |
 |setInitialConditions()     |establecerCondicionesIniciales()   |
-|checkGuess()               |verificarAdivinanza()              |
+|checkUserGuess()               |verificarIntento()              |
 |generateSecretNumber()     |generarNumeroSecreto()             |
 |
 
