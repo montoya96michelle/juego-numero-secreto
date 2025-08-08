@@ -9,107 +9,75 @@ function setTextToElement(selector, text) {
     return;
 }
 
-
 function checkUserGuess() {
     let userInput = parseInt(document.getElementById('userInput').value);
-
-    // while (drawNumbers.length < 11) {
-
     if (userInput === secretNumber) {
 
         setTextToElement('p',`Acertaste el numero. Lo hiciste en ${attempts} ${(attempts == 1) ? 'vez':'veces'}`);
-        clearInput();
 
-        document.getElementById('userGuess').setAttribute('disabled',true);
-        document.getElementById('userInput').setAttribute('disabled',true);
-        document.getElementById('restartButton').removeAttribute('disabled');
-        
+        document.getElementById('userGuess').setAttribute('disabled',true); //desactivo el boton intentar
+        document.getElementById('restartButton').removeAttribute('disabled'); //activo reseteo
+        clearInput(); 
 
     } else {
-
         if (userInput > secretNumber) {
             setTextToElement('p','El número secreto es menor');
 
         } else {
-            setTextToElement('p','l número secreto es mayor');
+            setTextToElement('p','El número secreto es mayor');
         }
-
         attempts++;
         console.log(`Intento #${attempts}`);
         clearInput();
 
         if (attempts > 3) {
             setTextToElement('p','llegaste al numero maximo de intentos');
-
             document.getElementById('userGuess').setAttribute('disabled',true);
-            document.getElementById('userInput').setAttribute('disabled',true);
-            
             document.getElementById('restartButton').removeAttribute('disabled');
         }
     }
     return;
 }
 
-
+function clearInput() {
+    document.querySelector('#userInput').value = '';
+}
 
 function generateSecretNumber() {
     let generatedNumber = Math.floor(Math.random() * maxNumber) + 1;
     console.log(generatedNumber);
     console.log(drawNumbers);
+    document.getElementById('userGuess').removeAttribute('disabled');//se mantiene activo el boton de intento
 
-
-    if (drawNumbers.length === maxNumber){
-
+    if (drawNumbers.length == maxNumber){
         setTextToElement('p','Ya se sortearon todos los números posibles');
-        document.getElementById('restartButton').setAttribute('disabled',true);
-
-
-
+        document.getElementById('userGuess').setAttribute('disabled', true);//desactivo el boton intentar
+        document.getElementById('userInput').setAttribute('disabled',true);//desactivo el input
+        clearInput();
+        return;
+    } 
+    
+    if (drawNumbers.includes(generatedNumber)){
+        return generateSecretNumber();
     } else {
-        if (drawNumbers.includes(generatedNumber)){
-            return generateSecretNumber();
-        } else {
-            drawNumbers.push(generatedNumber);
-            return generatedNumber;
-        }
+        drawNumbers.push(generatedNumber);
+        return generatedNumber;
     }
+    
 
-}
-
-
-function clearInput() {
-    document.querySelector('#userInput').value = '';
-}
-
+}   
 
 function initialConditions() {
-    // setTextToElement('h1','Juego del número secreto!');
-    // setTextToElement('p',`Indica un número del 1 al ${maxNumber}`);
-    // secretNumber = generateSecretNumber();
-    // attempts = 1;
-    if (drawNumbers.length < 11) {
-        document.getElementById('userInput').removeAttribute('enabled');
-        document.getElementById('userGuess').removeAttribute('enabled');
-        document.getElementById('restartButton').setAttribute('disabled',true);
-    } else {
-        setTextToElement('h1','Juego del número secreto!');
-        setTextToElement('p',`Indica un número del 1 al ${maxNumber}`);
-        secretNumber = generateSecretNumber();
-        attempts = 1;
-        document.getElementById('userInput').removeAttribute('disabled');
-        document.getElementById('userGuess').removeAttribute('disabled');
-    }
+    setTextToElement('h1','Juego del número secreto!');
+    setTextToElement('p',`Indica un número del 1 al ${maxNumber}`);
+    secretNumber = generateSecretNumber();
+    attempts = 1;
 }
 
 function resetGame() {
-    //limpiar caja
     clearInput();
-    //Indicar mensaje de intervalo de números 
-    //Generar el número aleatorio
-    //Inicializar el número intentos
-    initialConditions();
-    //Desabilita el boton
-    document.querySelector('#restartButton').setAttribute('disabled',true);
+    initialConditions()
+    document.getElementById('restartButton').setAttribute('disabled', true);
     
 }
 
